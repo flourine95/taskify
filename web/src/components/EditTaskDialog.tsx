@@ -7,44 +7,64 @@ import {
   DialogDescription 
 } from "@/components/ui/dialog";
 import { Button } from './ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Task } from '@/types';
+import { Trash2 } from 'lucide-react';
 
-interface CreateTaskDialogProps {
+interface EditTaskDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onTaskCreate: (task: Task) => void;
+  task: Task | null;
+  onTaskUpdate: (task: Task) => void;
+  onTaskDelete: (taskId: string) => void;
 }
 
-export function CreateTaskDialog({ open, onOpenChange, onTaskCreate }: CreateTaskDialogProps) {
+export function EditTaskDialog({ 
+  open, 
+  onOpenChange, 
+  task, 
+  onTaskUpdate,
+  onTaskDelete 
+}: EditTaskDialogProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
 
+  useEffect(() => {
+    if (task) {
+      setTitle(task.title);
+      setDescription(task.description || '');
+      setPriority(task.priority);
+    }
+  }, [task]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newTask: Task = {
-      id: Date.now().toString(),
+    if (!task) return;
+
+    const updatedTask: Task = {
+      ...task,
       title,
       description,
-      status: 'todo',
       priority,
     };
-    onTaskCreate(newTask);
+    onTaskUpdate(updatedTask);
     onOpenChange(false);
-    // Reset form
-    setTitle('');
-    setDescription('');
-    setPriority('medium');
+  };
+
+  const handleDelete = () => {
+    if (!task) return;
+    onTaskDelete(task.id);
+    onOpenChange(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent aria-describedby="dialog-description">
         <DialogHeader>
-          <DialogTitle>Tạo công việc mới</DialogTitle>
+          <DialogTitle>Chỉnh sửa công việc</DialogTitle>
           <DialogDescription>
-            Thêm một công việc mới vào danh sách của bạn
+            Thay đổi thông tin công việc của bạn
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,11 +99,22 @@ export function CreateTaskDialog({ open, onOpenChange, onTaskCreate }: CreateTas
               <option value="high">Cao</option>
             </select>
           </div>
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Hủy
+          <div className="flex justify-between gap-2">
+            <Button 
+              type="button" 
+              variant="destructive" 
+              onClick={handleDelete}
+              className="flex items-center gap-2"
+            >
+              <Trash2 className="w-4 h-4" />
+              Xóa
             </Button>
-            <Button type="submit">Tạo</Button>
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                Hủy
+              </Button>
+              <Button type="submit">Lưu</Button>
+            </div>
           </div>
         </form>
       </DialogContent>
