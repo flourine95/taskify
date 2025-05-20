@@ -1,10 +1,14 @@
-export type Task = {
+export interface Task {
   id: string;
   title: string;
   description?: string;
-  status: 'todo' | 'in-progress' | 'done';
   priority: 'low' | 'medium' | 'high';
-};
+  status: 'todo' | 'in-progress' | 'done';
+  createdAt: string;
+  startedAt?: string | null;
+  completedAt?: string | null;
+}
+
 
 export type Column = {
   id: string;
