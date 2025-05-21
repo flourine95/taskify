@@ -204,7 +204,9 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
   }
 
   // Update updateTask to save data after updating a task
+  // Sequence: Cập nhật task trong KanbanBoard
   const updateTask = (updatedTask: Task) => {
+  // Tìm và cập nhật task trong columns
     const newColumns = columns.map((column) => {
       return {
         ...column,
@@ -213,12 +215,14 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
     })
     setColumns(newColumns)
     setSelectedTask(updatedTask)
+
+      // Hiển thị thông báo thành công
     toast({
       title: "Task updated",
       description: `"${updatedTask.title}" has been updated`,
     })
 
-    // Save changes to KV
+  // Lưu dữ liệu vào database
     setTimeout(() => saveData(), 0)
   }
 
