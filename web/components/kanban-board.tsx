@@ -509,7 +509,7 @@ export default function KanbanBoard({initialColumns = [], initialRules = []}: Ka
         <div className="flex flex-col h-screen bg-slate-50 dark:bg-gray-950">
             <header className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 p-4 shadow-sm">
                 <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Kanban Board</h1>
+                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Taskify</h1>
                     <div className="flex items-center gap-2">
                         <Button variant="outline" size="sm" onClick={handleSeedData}
                                 className="flex items-center gap-1">
