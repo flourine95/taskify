@@ -12,7 +12,7 @@ export default async function Home() {
     ...column,
     tasks: initialTasks[column.id] || [],
   }))
-
+  //6.1.0 Hệ thống đang ở màn hình chính
   return (
     <main className="min-h-screen bg-slate-50">
       <KanbanBoard initialColumns={columnsWithTasks} initialRules={initialRules} />
