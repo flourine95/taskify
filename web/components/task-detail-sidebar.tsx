@@ -22,6 +22,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useToast } from "@/hooks/use-toast"
 
 interface TaskDetailSidebarProps {
   task: Task
@@ -40,6 +41,8 @@ export default function TaskDetailSidebar({
   onDuplicate,
   columns,
 }: TaskDetailSidebarProps) {
+  const { toast } = useToast()
+  // Khởi tạo state để lưu task đang được chỉnh sửa
   const [editedTask, setEditedTask] = useState<Task>({ ...task })
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
@@ -49,24 +52,40 @@ export default function TaskDetailSidebar({
   const [newCustomFieldValue, setNewCustomFieldValue] = useState("")
   const [isAddingCustomField, setIsAddingCustomField] = useState(false)
 
+  // Sequence: Sửa tiêu đề
   const handleTitleSave = () => {
     if (editedTask.title.trim()) {
       onUpdate(editedTask)
       setIsEditingTitle(false)
+      toast({
+        title: "Task updated",
+        description: "Task title has been updated successfully",
+      })
     }
   }
 
+  // Sequence: Sửa mô tả
   const handleDescriptionSave = () => {
     onUpdate(editedTask)
     setIsEditingDescription(false)
+    toast({
+      title: "Task updated",
+      description: "Task description has been updated successfully",
+    })
   }
 
+  // Sequence: Thay đổi trạng thái
   const handleStatusChange = (status: string) => {
     const updatedTask = { ...editedTask, status }
     setEditedTask(updatedTask)
     onUpdate(updatedTask)
+    toast({
+      title: "Status updated",
+      description: `Task status has been changed to ${status}`,
+    })
   }
 
+  // Sequence: Thay đổi ngày hạn
   const handleDueDateChange = (date: Date | undefined) => {
     const updatedTask = {
       ...editedTask,
@@ -74,8 +93,13 @@ export default function TaskDetailSidebar({
     }
     setEditedTask(updatedTask)
     onUpdate(updatedTask)
+    toast({
+      title: "Due date updated",
+      description: date ? `Due date set to ${formatDate(date.toISOString())}` : "Due date removed",
+    })
   }
 
+  // Sequence: Thêm subtask
   const toggleSubtask = (subtaskId: string) => {
     const updatedSubtasks = editedTask.subtasks.map((subtask) =>
       subtask.id === subtaskId ? { ...subtask, completed: !subtask.completed } : subtask,
@@ -86,6 +110,7 @@ export default function TaskDetailSidebar({
     onUpdate(updatedTask)
   }
 
+  // Sequence: Thêm subtask
   const addSubtask = () => {
     if (!newSubtaskTitle.trim()) return
 
@@ -106,6 +131,7 @@ export default function TaskDetailSidebar({
     setIsAddingSubtask(false)
   }
 
+  // Sequence: Xóa subtask
   const deleteSubtask = (subtaskId: string) => {
     const updatedSubtasks = editedTask.subtasks.filter((subtask) => subtask.id !== subtaskId)
 
@@ -114,6 +140,7 @@ export default function TaskDetailSidebar({
     onUpdate(updatedTask)
   }
 
+  // Sequence: Thêm custom field
   const addCustomField = () => {
     if (!newCustomFieldName.trim()) return
 
@@ -135,6 +162,7 @@ export default function TaskDetailSidebar({
     setIsAddingCustomField(false)
   }
 
+  // Sequence: Cập nhật custom field
   const updateCustomField = (fieldId: string, value: string) => {
     const updatedFields = editedTask.customFields.map((field) => (field.id === fieldId ? { ...field, value } : field))
 
@@ -143,6 +171,7 @@ export default function TaskDetailSidebar({
     onUpdate(updatedTask)
   }
 
+  // Sequence: Xóa custom field
   const deleteCustomField = (fieldId: string) => {
     const updatedFields = editedTask.customFields.filter((field) => field.id !== fieldId)
 
@@ -151,10 +180,12 @@ export default function TaskDetailSidebar({
     onUpdate(updatedTask)
   }
 
+  // Sequence: Xóa task
   const handleDeleteTask = () => {
     onDelete(task.id)
   }
 
+  // Sequence: Sao chép task
   const handleDuplicateTask = () => {
     onDuplicate(task)
   }

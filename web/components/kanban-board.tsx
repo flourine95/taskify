@@ -318,6 +318,59 @@ export default function KanbanBoard({initialColumns = [], initialRules = []}: Ka
 
         // Save changes to KV
         setTimeout(() => saveData(), 0)
+
+      }
+
+
+  // Update updateTask to save data after updating a task
+  // Sequence: Cập nhật task trong KanbanBoard
+  const updateTask = (updatedTask: Task) => {
+  // Tìm và cập nhật task trong columns
+    const newColumns = columns.map((column) => {
+      return {
+        ...column,
+        tasks: column.tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+      }
+    })
+    setColumns(newColumns)
+    setSelectedTask(updatedTask)
+
+      // Hiển thị thông báo thành công
+    toast({
+      title: "Task updated",
+      description: `"${updatedTask.title}" has been updated`,
+    })
+
+  // Lưu dữ liệu vào database
+    setTimeout(() => saveData(), 0)
+  }
+
+  // Update deleteTask to save data after deleting a task
+  const deleteTask = (taskId: string) => {
+    const newColumns = columns.map((column) => {
+      return {
+        ...column,
+        tasks: column.tasks.filter((task) => task.id !== taskId),
+      }
+    })
+    setColumns(newColumns)
+    setSelectedTask(null)
+    toast({
+      title: "Task deleted",
+      description: "The task has been deleted",
+    })
+
+    // Save changes to KV
+    setTimeout(() => saveData(), 0)
+  }
+
+  const duplicateTask = (task: Task, columnId?: string) => {
+    // Create a deep copy of the task with a new ID
+    const duplicatedTask: Task = {
+      ...JSON.parse(JSON.stringify(task)),
+      id: `task-${generateId()}`,
+      title: `${task.title} (Copy)`,
+      createdAt: new Date().toISOString(),
     }
 
     // Update addRule to save data after adding a rule
