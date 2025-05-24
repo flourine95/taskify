@@ -52,7 +52,7 @@ export default function TaskDetailSidebar({
   const [newCustomFieldValue, setNewCustomFieldValue] = useState("")
   const [isAddingCustomField, setIsAddingCustomField] = useState(false)
 
-  // Sequence: Sửa tiêu đề
+  //  2.2 Chỉnh sửa công việc( Sửa tiêu đề)
   const handleTitleSave = () => {
     if (editedTask.title.trim()) {
       onUpdate(editedTask)
@@ -64,7 +64,7 @@ export default function TaskDetailSidebar({
     }
   }
 
-  // Sequence: Sửa mô tả
+  //  2.2 Chỉnh sửa công việc( Sửa mô tả)
   const handleDescriptionSave = () => {
     onUpdate(editedTask)
     setIsEditingDescription(false)
@@ -74,7 +74,7 @@ export default function TaskDetailSidebar({
     })
   }
 
-  // Sequence: Thay đổi trạng thái
+  // 2.2 Chỉnh sửa công việc(Thay đổi trạng thái)
   const handleStatusChange = (status: string) => {
     const updatedTask = { ...editedTask, status }
     setEditedTask(updatedTask)
@@ -85,7 +85,7 @@ export default function TaskDetailSidebar({
     })
   }
 
-  // Sequence: Thay đổi ngày hạn
+  //  2.2 Chỉnh sửa công việc(Thay đổi ngày hạn)
   const handleDueDateChange = (date: Date | undefined) => {
     const updatedTask = {
       ...editedTask,
