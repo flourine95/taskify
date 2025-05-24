@@ -16,9 +16,9 @@ import { generateId } from "@/lib/utils"
 // Add predefined colors with dark mode variants
 const COLUMN_COLORS = [
   { name: "Default", value: "bg-white dark:bg-gray-800" },
-  { name: "Blue", value: "bg-blue-50 dark:bg-blue-900/30" },
-  { name: "Green", value: "bg-green-50 dark:bg-green-900/30" },
-  { name: "Yellow", value: "bg-yellow-50 dark:bg-yellow-900/30" },
+  { name: "Blue", value: "bg-blue-200 dark:bg-blue-200" },
+  { name: "Green", value: "bg-green-200 dark:bg-green-200" },
+  { name: "Red", value: "bg-red-200 dark:bg-red-200" },
   { name: "Purple", value: "bg-purple-50 dark:bg-purple-900/30" },
   { name: "Pink", value: "bg-pink-50 dark:bg-pink-900/30" },
   { name: "Orange", value: "bg-orange-50 dark:bg-orange-900/30" },
