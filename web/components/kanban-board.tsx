@@ -125,38 +125,38 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
     }
   }, [columns, rules, selectedTask, toast])
 
-  // Update handleDragEnd to save data after moving a task
+  // 6.1.1 Người dùng kéo thả task từ cột này sang cột khác
   const handleDragEnd = (result: DropResult) => {
-    const { destination, source, draggableId } = result
+    const {destination, source, draggableId} = result
 
-    // If there's no destination or the item is dropped in the same place
+    // 6.2.1 Người dùng kéo task đi nhưng ko qua cột khác trở về vị trí cũ
+    // 6.2.2 Hệ thống kiểm tra (droppableId) và (index) của column nguồn và đích
     if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) {
+      // 6.2.3 Column nguồn và đích bằng nhau ko trả về trạng thái khác
       return
     }
 
-    // Find the source and destination columns
+    //6.1.3 Hệ thống tìm column nguồn và column đích đựa vào <droppableId>
     const sourceColumn = columns.find((col) => col.id === source.droppableId)
     const destColumn = columns.find((col) => col.id === destination.droppableId)
-
     if (!sourceColumn || !destColumn) return
 
-    // Create new arrays for the columns
+    // 6.1.4 Hệ thống tìm task được kéo bằng ID
+    const task = sourceColumn.tasks.find((t) => t.id === draggableId)
+    if (!task) return
+
+    // 6.1.5 Hệ thống cập nhật lại columns xóa task khỏi cột nguồn gọi <sourceColumn.task.filter>
     const newColumns = [...columns]
     const sourceColIndex = newColumns.findIndex((col) => col.id === source.droppableId)
     const destColIndex = newColumns.findIndex((col) => col.id === destination.droppableId)
 
-    // Find the task being moved
-    const task = sourceColumn.tasks.find((t) => t.id === draggableId)
-    if (!task) return
-
-    // Remove the task from the source column
     newColumns[sourceColIndex] = {
       ...sourceColumn,
       tasks: sourceColumn.tasks.filter((t) => t.id !== draggableId),
     }
 
-    // Add the task to the destination column with updated status
-    const updatedTask = { ...task, status: destColumn.title }
+    //6.1.6 Hệ thống cập nhật trạng thái <updateTask> bằng tên cột mới <newColumn[destColIndex]> và thêm vào cột đích
+    const updatedTask = {...task, status: destColumn.title}
     newColumns[destColIndex] = {
       ...destColumn,
       tasks: [
@@ -165,20 +165,17 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
         ...destColumn.tasks.slice(destination.index),
       ],
     }
-
+    // 6.1.8 Hệ thống cập nhật UI status tên cột mới khi người dùng click vào detailTask
     setColumns(newColumns)
 
-    // Update selected task if it's the one being moved
-    if (selectedTask && selectedTask.id === draggableId) {
-      setSelectedTask(updatedTask)
-    }
+    // Hành động kéo task nào cũng sẽ đóng taskDetail
+    setSelectedTask(null)
 
     toast({
       title: "Task moved",
       description: `"${task.title}" moved to ${destColumn.title}`,
     })
-
-    // Save changes to KV
+    // 6.1.7 cập nhật status database
     setTimeout(() => saveData(), 0)
   }
 
@@ -431,7 +428,14 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
       })
     }
   }
-
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask((current) => {
+      if (current?.id === task.id) {
+        return null // toggle: đóng nếu đang mở task đó
+      }
+      return task // mở task mới
+    })
+  }
   // Board content for the "board" tab
   const renderBoardContent = () => (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -441,7 +445,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
             key={column.id}
             column={column}
             onAddTask={addTask}
-            onTaskClick={setSelectedTask}
+            onTaskClick={handleTaskClick}
             onDeleteColumn={() => deleteColumn(column.id)}
             onUpdateColumn={updateColumn}
             onDuplicateTask={duplicateTask}
@@ -507,7 +511,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-gray-950">
       <header className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 p-4 shadow-sm">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Kanban Board</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Taskify</h1>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={handleSeedData} className="flex items-center gap-1">
               <Database className="h-4 w-4" />
