@@ -168,7 +168,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
     // 6.1.6 cập nhật status database
     setTimeout(() => saveData(), 0)
 
-    // 6.1.7 Hệ thống cập nhật UI status tên cột mới
+    // 6.1.7 Hệ thống cập nhật UI status tên cột mớicd
     setColumns(newColumns)
 
     // Hành động kéo task nào cũng sẽ đóng taskDetail
@@ -428,6 +428,14 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
         variant: "destructive",
       })
     }
+  }
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask((current) => {
+      if (current?.id === task.id) {
+        return null // toggle: đóng nếu đang mở task đó
+      }
+      return task // mở task mới
+    })
   }
 
   // Board content for the "board" tab
