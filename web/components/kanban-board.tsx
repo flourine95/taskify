@@ -476,6 +476,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
               </div>
             </div>
           ) : (
+            //2.1.5.2 – Người dùng click vào button “Add Column”
             <Button
               variant="outline"
               className="border-dashed border-2 w-full h-12 dark:border-gray-700 dark:text-gray-300"
