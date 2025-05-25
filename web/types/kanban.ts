@@ -7,7 +7,9 @@ export interface Task {
   subtasks: Subtask[]
   customFields: CustomField[]
   createdAt: string
+  priority?: TaskPriority;
 }
+export type TaskPriority = 'none' | 'low' | 'medium' | 'high';
 
 export interface Subtask {
   id: string
