@@ -23,7 +23,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
-
+//2.2.5.2 – Hiển thị form cần chỉnh sửa ở bên phải màn hình
+//2.2.5.2 – Hiển thị form cần chỉnh sửa ở bên phải màn hình
 interface TaskDetailSidebarProps {
   task: Task
   onClose: () => void
@@ -52,7 +53,7 @@ export default function TaskDetailSidebar({
   const [newCustomFieldValue, setNewCustomFieldValue] = useState("")
   const [isAddingCustomField, setIsAddingCustomField] = useState(false)
 
-  // Sequence: Sửa tiêu đề
+  //  2.2 Chỉnh sửa công việc( Sửa tiêu đề)
   const handleTitleSave = () => {
     if (editedTask.title.trim()) {
       onUpdate(editedTask)
@@ -64,7 +65,7 @@ export default function TaskDetailSidebar({
     }
   }
 
-  // Sequence: Sửa mô tả
+  //  2.2 Chỉnh sửa công việc( Sửa mô tả)
   const handleDescriptionSave = () => {
     onUpdate(editedTask)
     setIsEditingDescription(false)
@@ -74,7 +75,7 @@ export default function TaskDetailSidebar({
     })
   }
 
-  // Sequence: Thay đổi trạng thái
+  // 2.2 Chỉnh sửa công việc(Thay đổi trạng thái)
   const handleStatusChange = (status: string) => {
     const updatedTask = { ...editedTask, status }
     setEditedTask(updatedTask)
@@ -85,7 +86,7 @@ export default function TaskDetailSidebar({
     })
   }
 
-  // Sequence: Thay đổi ngày hạn
+  //  2.2 Chỉnh sửa công việc(Thay đổi ngày hạn)
   const handleDueDateChange = (date: Date | undefined) => {
     const updatedTask = {
       ...editedTask,
@@ -204,6 +205,7 @@ export default function TaskDetailSidebar({
         <div className="space-y-6">
           {/* Title */}
           <div>
+            //2.2.5.4 Hệ thống cho phép người dùng nhập thông tin để sửa
             {isEditingTitle ? (
               <div className="space-y-2">
                 <Input
@@ -226,6 +228,7 @@ export default function TaskDetailSidebar({
                 </div>
               </div>
             ) : (
+              //2.2.5.3 – Người dùng click vào nút “Edit”
               <div className="flex justify-between items-start">
                 <h3 className="text-lg font-medium dark:text-gray-200">{editedTask.title}</h3>
                 <Button variant="ghost" size="icon" onClick={() => setIsEditingTitle(true)}>
@@ -337,6 +340,7 @@ export default function TaskDetailSidebar({
                   placeholder="Subtask title"
                   className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
                 />
+                //2.1.5.4 Người dùng nhấn vào button “add” thêm columscolums. 
                 <div className="flex gap-2">
                   <Button size="sm" onClick={addSubtask}>
                     Add
@@ -422,6 +426,7 @@ export default function TaskDetailSidebar({
                     className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
                   />
                 </div>
+                //2.1.5.8	Người dùng nhấn vào button “add” để thêm tasktask. 
                 <div className="flex gap-2">
                   <Button size="sm" onClick={addCustomField}>
                     Add
