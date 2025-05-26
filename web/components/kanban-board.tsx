@@ -824,4 +824,3 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
 }
 
 
-
