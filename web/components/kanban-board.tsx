@@ -637,17 +637,18 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
   );
 
   const renderAutomationContent = () => (
-      <div className="max-w-4xl mx-auto">
-        <AutomationRules
-            rules={rules}
-            columns={columns}
-            onAddRule={addRule}
-            onUpdateRule={handleUpdateRule}
-            onDeleteRule={deleteRule}
-        />
-      </div>
-  );
+    <div className="max-w-4xl mx-auto">
+      <AutomationRules
+        rules={rules}
+        columns={columns}
+        onAddRule={addRule}
+        onUpdateRule={handleUpdateRule}
+        onDeleteRule={deleteRule}
+      />
+    </div>
+  )
 
+  // Update the header section to include the seed data button
   return (
       <div className="flex flex-col h-full min-h-screen p-4 md:p-6 space-y-4 md:space-y-6 bg-background">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
@@ -746,7 +747,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
                       </Select>
                     </div>
 
-                    {/* UC-3 3.5 (phần đầu, trigger chung cho bộ lọc ngày): Người dùng chọn "Ngày hết hạn" */}
+                    {/* UC-003 3.5 (phần đầu, trigger chung cho bộ lọc ngày): Người dùng chọn "Ngày hết hạn" */}
                     <div className="w-full sm:w-auto md:min-w-[140px]">
                       <Select
                           value={selectedDueDateRange}
@@ -790,11 +791,14 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
           </div>
         </header>
 
+        {/*4.2.3 Thành phần TaskDetailSidebar được hiển thị, render các thông tin chi tiết của task.*/}
+        {/*4.2.16 Giao diện TaskDetailSidebar đóng lại và giao diện được cập nhật.*/}
         {selectedTask && (
             <TaskDetailSidebar
                 task={selectedTask}
                 onClose={() => setSelectedTask(null)}
                 onUpdate={updateTask}
+                // 4.2.11 Gửi sự kiện onDelete(taskId) lên KanbanBoard.
                 onDelete={deleteTask}
                 onDuplicate={duplicateTask}
                 columns={columns}
