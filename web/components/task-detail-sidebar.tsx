@@ -496,14 +496,16 @@ export default function TaskDetailSidebar({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-               {/*4.2.6 Sự kiện AlertDialogCancel() được kích hoạt.*/}
-               {/*4.2.7 Dialog đóng lại (AlertDialog.hide()).*/}
-               {/*4.2.8 TaskDetailSidebar cập nhật lại UI để giữ nguyên thông tin task.*/}
+               {/*4.2.6A1 Sự kiện AlertDialogCancel() được kích hoạt.*/}
+               {/*4.2.6A2 Dialog đóng lại (AlertDialog.hide()).*/}
+               {/*4.2.6A3 TaskDetailSidebar cập nhật lại UI để giữ nguyên thông tin task.*/}
               <AlertDialogCancel className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
                 Cancel
               </AlertDialogCancel>
 
-               {/*4.2.10 Gọi lại handleDeleteTask() trong TaskDetailSidebar để xác nhận thao tác.*/}
+               {/*4.2.6 Sự kiện AlertDialogAction() được kích hoạt.*/}
+               {/*4.2.7 Gọi lại handleDeleteTask() trong TaskDetailSidebar để xác nhận thao tác.*/}
+               {/*4.2.8 Gửi sự kiện onDelete(taskId) lên KanbanBoard.*/}
               <AlertDialogAction onClick={handleDeleteTask}>Delete</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
