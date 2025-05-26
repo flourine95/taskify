@@ -180,7 +180,8 @@ export default function TaskDetailSidebar({
     onUpdate(updatedTask)
   }
 
-  // Sequence: Xóa task
+
+  // 4.2.4 Người dùng click vào nút xoá trong TaskDetailSidebar, kích hoạt hàm handleDeleteTask().
   const handleDeleteTask = () => {
     onDelete(task.id)
   }
@@ -479,8 +480,10 @@ export default function TaskDetailSidebar({
           <Copy className="h-4 w-4 mr-2" /> Duplicate
         </Button>
 
+        // 4.2.5 AlertDialog được hiển thị để xác nhận thao tác.
         <AlertDialog>
           <AlertDialogTrigger asChild>
+            // 4.2.9 Sự kiện AlertDialogAction() được kích hoạt.
             <Button variant="destructive" className="flex-1">
               <Trash2 className="h-4 w-4 mr-2" /> Delete Task
             </Button>
@@ -493,9 +496,14 @@ export default function TaskDetailSidebar({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
+              // 4.2.6 Sự kiện AlertDialogCancel() được kích hoạt.
+              // 4.2.7 Dialog đóng lại (AlertDialog.hide()).
+              // 4.2.8 TaskDetailSidebar cập nhật lại UI để giữ nguyên thông tin task.
               <AlertDialogCancel className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
                 Cancel
               </AlertDialogCancel>
+
+              // 4.2.10 Gọi lại handleDeleteTask() trong TaskDetailSidebar để xác nhận thao tác.
               <AlertDialogAction onClick={handleDeleteTask}>Delete</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

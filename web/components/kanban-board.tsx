@@ -24,6 +24,7 @@ interface KanbanBoardProps {
 export default function KanbanBoard({ initialColumns = [], initialRules = [] }: KanbanBoardProps) {
   const { toast } = useToast()
   const [columns, setColumns] = useState<ColumnType[]>(initialColumns)
+// 4.2.2 KanbanBoard thực thi setSelectedTask() để lưu thông tin task được chọn.
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [newColumnTitle, setNewColumnTitle] = useState("")
   const [isAddingColumn, setIsAddingColumn] = useState(false)
@@ -121,6 +122,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
       })
 
       setColumns(newColumns)
+      // 4.2.13 Lưu thay đổi vào database
       saveData()
     }
   }, [columns, rules, selectedTask, toast])
@@ -224,7 +226,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
     setTimeout(() => saveData(), 0)
   }
 
-  // Update deleteTask to save data after deleting a task
+  // 4.2.12 Hàm deleteTask(taskId) được thực thi
   const deleteTask = (taskId: string) => {
     const newColumns = columns.map((column) => {
       return {
@@ -233,7 +235,9 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
       }
     })
     setColumns(newColumns)
+    // 4.2.14 Xoá task được chọn: setSelectedTask(null).
     setSelectedTask(null)
+    // 4.2.15 Hiển thị thông báo (toast)
     toast({
       title: "Task deleted",
       description: "The task has been deleted",
@@ -429,6 +433,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
       })
     }
   }
+  // 4.2.1 Người dùng click vào một TaskCard trên giao diện Kanban.
   const handleTaskClick = (task: Task) => {
     setSelectedTask((current) => {
       if (current?.id === task.id) {
@@ -543,11 +548,14 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
         </Tabs>
       </header>
 
+      // 4.2.3 Thành phần TaskDetailSidebar được hiển thị, render các thông tin chi tiết của task.
+      // 4.2.16 Giao diện TaskDetailSidebar đóng lại và giao diện được cập nhật.
       {selectedTask && (
         <TaskDetailSidebar
           task={selectedTask}
           onClose={() => setSelectedTask(null)}
           onUpdate={updateTask}
+          // 4.2.11 Gửi sự kiện onDelete(taskId) lên KanbanBoard.
           onDelete={deleteTask}
           onDuplicate={duplicateTask}
           columns={columns}
