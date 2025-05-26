@@ -28,6 +28,7 @@ const ASSIGNED_TO_FIELD_NAME = "Assigned To";
 export default function KanbanBoard({ initialColumns = [], initialRules = [] }: KanbanBoardProps) {
   const { toast } = useToast()
   const [columns, setColumns] = useState<ColumnType[]>(initialColumns)
+  // 4.2.2 KanbanBoard thực thi setSelectedTask() để lưu thông tin task được chọn.
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [newColumnTitle, setNewColumnTitle] = useState("")
   const [isAddingColumn, setIsAddingColumn] = useState(false)
@@ -299,6 +300,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
         }
       });
       setColumns(newColumnsAfterAutomation);
+      // 4.2.13 Lưu thay đổi vào database
       saveData(newColumnsAfterAutomation, rules);
     }
   }, [columns, rules, selectedTask, toast]);
@@ -429,14 +431,16 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
     // Lưu dữ liệu vào database
     setTimeout(() => saveData(newColumnsState, rules), 0);
   };
-
+  // 4.2.12 Hàm deleteTask(taskId) được thực thi
   const deleteTask = (taskId: string) => {
     const newColumnsState = columns.map((column) => ({
       ...column,
       tasks: column.tasks.filter((task: Task) => task.id !== taskId),
     }));
     setColumns(newColumnsState);
+    // 4.2.14 Xoá task được chọn: setSelectedTask(null).
     setSelectedTask(null);
+    // 4.2.15 Hiển thị thông báo (toast)
     toast({ title: "Task deleted", description: "The task has been deleted" });
     setTimeout(() => saveData(newColumnsState, rules), 0);
   };
@@ -554,7 +558,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
       toast({ title: "Error", description: "Failed to save board data", variant: "destructive" });
     }
   };
-
+  // 4.2.1 Người dùng click vào một TaskCard trên giao diện Kanban.
   const handleTaskClick = (task: Task) => {
     setSelectedTask((current) => {
       if (current?.id === task.id) {
