@@ -729,7 +729,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
                       </Select>
                     </div>
 
-                    {/* UC-3 3.4: Người dùng chọn "Cột" (Trạng thái) */}
+                    {/* UC-003 3.4: Người dùng chọn "Cột" (Trạng thái) */}
                     <div className="w-full sm:w-auto md:min-w-[140px]">
                       <Select
                           value={selectedStatus}
@@ -747,7 +747,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
                       </Select>
                     </div>
 
-                    {/* UC-003 3.5 (phần đầu, trigger chung cho bộ lọc ngày): Người dùng chọn "Ngày hết hạn" */}
+                    //UC-003 3.5 : Người dùng chọn "Ngày hết hạn"
                     <div className="w-full sm:w-auto md:min-w-[140px]">
                       <Select
                           value={selectedDueDateRange}
@@ -798,6 +798,7 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
                 task={selectedTask}
                 onClose={() => setSelectedTask(null)}
                 onUpdate={updateTask}
+
                 // 4.2.11 Gửi sự kiện onDelete(taskId) lên KanbanBoard.
                 onDelete={deleteTask}
                 onDuplicate={duplicateTask}
@@ -822,5 +823,4 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
       </div>
   );
 }
-
 
