@@ -548,14 +548,14 @@ export default function KanbanBoard({ initialColumns = [], initialRules = [] }: 
         </Tabs>
       </header>
 
-      // 4.2.3 Thành phần TaskDetailSidebar được hiển thị, render các thông tin chi tiết của task.
-      // 4.2.16 Giao diện TaskDetailSidebar đóng lại và giao diện được cập nhật.
+      {/*4.2.3 Thành phần TaskDetailSidebar được hiển thị, render các thông tin chi tiết của task.*/}
+      {/*4.2.16 Giao diện TaskDetailSidebar đóng lại và giao diện được cập nhật.*/}
       {selectedTask && (
         <TaskDetailSidebar
           task={selectedTask}
           onClose={() => setSelectedTask(null)}
           onUpdate={updateTask}
-          // 4.2.11 Gửi sự kiện onDelete(taskId) lên KanbanBoard.
+           // 4.2.11 Gửi sự kiện onDelete(taskId) lên KanbanBoard.
           onDelete={deleteTask}
           onDuplicate={duplicateTask}
           columns={columns}
