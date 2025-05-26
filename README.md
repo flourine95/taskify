@@ -53,7 +53,7 @@ web/
 2. **Installation**
    ```bash
    # Clone the repository
-   git clone https://github.com/yourusername/taskify.git
+   git clone https://github.com/flourine95/taskify.git
    cd taskify
 
    # Install dependencies
